@@ -13,6 +13,6 @@ def TimeZoneHttpTrigger(req: func.HttpRequest) -> func.HttpResponse:
     """
     logging.info('Timezone HTTP trigger function received a request')
 
-    timezone = req.get_json['timezone']
+    timezone = req.get_json().get('timezone')
 
-    print(timezone)
+    return func.HttpResponse(f'{timezone}')
