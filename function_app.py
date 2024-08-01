@@ -14,5 +14,24 @@ def TimeZoneHttpTrigger(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Timezone HTTP trigger function received a request')
 
     timezone = req.get_json().get('timezone')
+    
+    #extension of the task : check if there is a timezone variable that exist
 
+    if not timezone:
+        try:
+            req_body = req.get_body()
+        except ValueError:
+            pass
+        else:
+            timezone = req_body.get('timezone')
+    
+    if timezone:
+        return func.HttpResponse(
+            f'{timezone}'
+        )
+    else:
+        return func.HttpResponse(
+            "Please send an appropriate request to the API",
+            status_code=200
+        )
     return func.HttpResponse(f'{timezone}')
